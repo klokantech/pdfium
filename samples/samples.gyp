@@ -3,6 +3,9 @@
 # found in the LICENSE file.
 
 {
+  'variables': {
+    'pdf_use_v8%': 0,
+  },
   'target_defaults': {
     'defines' : [
       'PNG_PREFIX',
@@ -11,8 +14,6 @@
     ],
     'include_dirs': [
       '<(DEPTH)',
-      '<(DEPTH)/v8',
-      '<(DEPTH)/v8/include',
     ],
   },
   'targets': [
@@ -22,11 +23,25 @@
       'dependencies': [
         'fx_lpng',
         '../pdfium.gyp:pdfium',
-        '<(DEPTH)/v8/tools/gyp/v8.gyp:v8_libplatform',
       ],
       'sources': [
         'pdfium_test.cc',
         'image_diff_png.cc',
+      ],
+      'conditions': [
+        ['pdf_use_v8==1', {
+          'defines': ['_V8_SUPPORT_'],
+          'includes': [
+            'javascript.gypi'
+          ],
+          'dependencies': [
+            '<(DEPTH)/v8/tools/gyp/v8.gyp:v8_libplatform',
+          ],
+          'include_dirs': [
+            '<(DEPTH)/v8',
+            '<(DEPTH)/v8/include',
+          ],
+        }],
       ],
     },
     {

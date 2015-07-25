@@ -210,8 +210,12 @@ FX_SYSTEMTIME CFX_SystemHandler::GetLocalTime()
 
 CJS_RuntimeFactory* GetJSRuntimeFactory()
 {
+#ifdef _V8_SUPPORT_
     static CJS_RuntimeFactory s_JSRuntimeFactory;
     return &s_JSRuntimeFactory;
+#else
+    return NULL;
+#endif
 }
 
 CPDFDoc_Environment::CPDFDoc_Environment(CPDF_Document* pDoc, FPDF_FORMFILLINFO* pFFinfo) :
@@ -224,17 +228,23 @@ CPDFDoc_Environment::CPDFDoc_Environment(CPDF_Document* pDoc, FPDF_FORMFILLINFO*
     m_pIFormFiller(NULL)
 {
     m_pSysHandler = new CFX_SystemHandler(this);
+
+    m_pJSRuntimeFactory = NULL;
+#ifdef _V8_SUPPORT_
     m_pJSRuntimeFactory = GetJSRuntimeFactory();
     m_pJSRuntimeFactory->AddRef();
+#endif
 }
 
 CPDFDoc_Environment::~CPDFDoc_Environment()
 {
     delete m_pIFormFiller;
     m_pIFormFiller = NULL;
+#ifdef _V8_SUPPORT_
     if (m_pJSRuntime && m_pJSRuntimeFactory)
         m_pJSRuntimeFactory->DeleteJSRuntime(m_pJSRuntime);
     m_pJSRuntimeFactory->Release();
+#endif
 
     delete m_pSysHandler;
     m_pSysHandler = NULL;
@@ -247,6 +257,7 @@ CPDFDoc_Environment::~CPDFDoc_Environment()
 
 int CPDFDoc_Environment::JS_appAlert(const FX_WCHAR* Msg, const FX_WCHAR* Title, FX_UINT Type, FX_UINT Icon)
 {
+#ifdef _V8_SUPPORT_
     if (m_pInfo && m_pInfo->m_pJsPlatform && m_pInfo->m_pJsPlatform->app_alert)
     {
         CFX_ByteString bsMsg = CFX_WideString(Msg).UTF16LE_Encode();
@@ -258,12 +269,14 @@ int CPDFDoc_Environment::JS_appAlert(const FX_WCHAR* Msg, const FX_WCHAR* Title,
         bsTitle.ReleaseBuffer();
         return ret;
     }
+#endif  // ~ _V8_SUPPORT_
     return -1;
 }
 
 int CPDFDoc_Environment::JS_appResponse(const FX_WCHAR* Question, const FX_WCHAR* Title, const FX_WCHAR* Default,
                                         const FX_WCHAR* cLabel, FPDF_BOOL bPassword, void* response, int length)
 {
+#ifdef _V8_SUPPORT_
     if (m_pInfo && m_pInfo->m_pJsPlatform && m_pInfo->m_pJsPlatform->app_response)
     {
         CFX_ByteString bsQuestion = CFX_WideString(Question).UTF16LE_Encode();
@@ -282,11 +295,13 @@ int CPDFDoc_Environment::JS_appResponse(const FX_WCHAR* Question, const FX_WCHAR
         bsLabel.ReleaseBuffer();
         return ret;
     }
+#endif  // ~ _V8_SUPPORT_
     return -1;
 }
 
 CFX_WideString CPDFDoc_Environment::JS_fieldBrowse()
 {
+#ifdef _V8_SUPPORT_
     if (!m_pInfo ||
         !m_pInfo->m_pJsPlatform ||
         !m_pInfo->m_pJsPlatform->Field_browse) {
@@ -308,10 +323,14 @@ CFX_WideString CPDFDoc_Environment::JS_fieldBrowse()
     CFX_ByteString bsRet = CFX_ByteString(pBuff.get(), nActualLen);
     CFX_WideString wsRet = CFX_WideString::FromLocal(bsRet);
     return wsRet;
+#else
+    return L"";
+#endif  // ~ _V8_SUPPORT_
 }
 
 CFX_WideString CPDFDoc_Environment::JS_docGetFilePath()
 {
+#ifdef _V8_SUPPORT_
     if (!m_pInfo ||
         !m_pInfo->m_pJsPlatform ||
         !m_pInfo->m_pJsPlatform->Doc_getFilePath) {
@@ -333,10 +352,14 @@ CFX_WideString CPDFDoc_Environment::JS_docGetFilePath()
     CFX_ByteString bsRet = CFX_ByteString(pBuff.get(), nActualLen);
     CFX_WideString wsRet = CFX_WideString::FromLocal(bsRet);
     return wsRet;
+#else
+    return L"";
+#endif  // ~ _V8_SUPPORT_
 }
 
 void CPDFDoc_Environment::JS_docSubmitForm(void* formData, int length, const FX_WCHAR* URL)
 {
+#ifdef _V8_SUPPORT_
     if (m_pInfo && m_pInfo->m_pJsPlatform && m_pInfo->m_pJsPlatform->Doc_submitForm)
     {
         CFX_ByteString bsDestination = CFX_WideString(URL).UTF16LE_Encode();
@@ -344,6 +367,7 @@ void CPDFDoc_Environment::JS_docSubmitForm(void* formData, int length, const FX_
         m_pInfo->m_pJsPlatform->Doc_submitForm(m_pInfo->m_pJsPlatform, formData, length, pDestination);
         bsDestination.ReleaseBuffer();
     }
+#endif  // ~ _V8_SUPPORT_
 }
 
 void CPDFDoc_Environment::JS_docmailForm(void* mailData, int length, FPDF_BOOL bUI,
@@ -351,6 +375,7 @@ void CPDFDoc_Environment::JS_docmailForm(void* mailData, int length, FPDF_BOOL b
                                          const FX_WCHAR* CC, const FX_WCHAR* BCC,
                                          const FX_WCHAR* Msg)
 {
+#ifdef _V8_SUPPORT_
     if (m_pInfo && m_pInfo->m_pJsPlatform && m_pInfo->m_pJsPlatform->Doc_mail)
     {
         CFX_ByteString bsTo = CFX_WideString(To).UTF16LE_Encode();
@@ -371,15 +396,20 @@ void CPDFDoc_Environment::JS_docmailForm(void* mailData, int length, FPDF_BOOL b
         bsSubject.ReleaseBuffer();
         bsMsg.ReleaseBuffer();
     }
+#endif  // ~ _V8_SUPPORT_
 }
 
 IFXJS_Runtime* CPDFDoc_Environment::GetJSRuntime()
 {
+#ifdef _V8_SUPPORT_
     if (!IsJSInitiated())
         return NULL;
     if (!m_pJSRuntime)
         m_pJSRuntime = m_pJSRuntimeFactory->NewJSRuntime(this);
     return m_pJSRuntime;
+#else
+    return NULL;
+#endif  // ~ _V8_SUPPORT_
 }
 
 CPDFSDK_AnnotHandlerMgr* CPDFDoc_Environment::GetAnnotHandlerMgr()

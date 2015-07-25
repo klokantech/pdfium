@@ -19,8 +19,10 @@
 #include "../public/fpdf_text.h"
 #include "../public/fpdfview.h"
 #include "image_diff_png.h"
+#ifdef _V8_SUPPORT_
 #include "v8/include/libplatform/libplatform.h"
 #include "v8/include/v8.h"
+#endif
 
 #ifdef _WIN32
 #define snprintf _snprintf
@@ -76,6 +78,7 @@ static char* GetFileContents(const char* filename, size_t* retlen) {
   return buffer;
 }
 
+#ifdef _V8_SUPPORT_
 #ifdef V8_USE_EXTERNAL_STARTUP_DATA
 // Returns the full path for an external V8 data file based on either
 // the currect exectuable path or an explicit override.
@@ -113,6 +116,7 @@ static bool GetExternalData(const Options& options,
   return true;
 }
 #endif  // V8_USE_EXTERNAL_STARTUP_DATA
+#endif
 
 static bool CheckDimensions(int stride, int width, int height) {
   if (stride < 0 || width < 0 || height < 0)
@@ -364,6 +368,7 @@ bool ParseCommandLine(const std::vector<std::string>& args,
       options->output_format = OUTPUT_BMP;
     }
 #endif  // _WIN32
+#ifdef _V8_SUPPORT_
 #ifdef V8_USE_EXTERNAL_STARTUP_DATA
     else if (cur_arg.size() > 10 && cur_arg.compare(0, 10, "--bin-dir=") == 0) {
       if (!options->bin_directory.empty()) {
@@ -373,6 +378,7 @@ bool ParseCommandLine(const std::vector<std::string>& args,
       options->bin_directory = cur_arg.substr(10);
     }
 #endif  // V8_USE_EXTERNAL_STARTUP_DATA
+#endif  // ~ _V8_SUPPORT_
     else if (cur_arg.size() > 8 && cur_arg.compare(0, 8, "--scale=") == 0) {
       if (!options->scale_factor_as_string.empty()) {
         fprintf(stderr, "Duplicate --scale argument\n");
@@ -481,7 +487,9 @@ void RenderPdf(const std::string& name, const char* pBuf, size_t len,
     (void) FPDFAvail_IsPageAvail(pdf_avail, i, &hints);
   }
 
+#ifdef _V8_SUPPORT_
   FORM_DoDocumentJSAction(form);
+#endif  // ~ _V8_SUPPORT_
   FORM_DoDocumentOpenAction(form);
 
   int rendered_pages = 0;
@@ -560,7 +568,9 @@ void RenderPdf(const std::string& name, const char* pBuf, size_t len,
 
 static const char usage_string[] =
     "Usage: pdfium_test [OPTION] [FILE]...\n"
+#ifdef _V8_SUPPORT_
     "  --bin-dir=<path> - override path to v8 external data\n"
+#endif  // ~ _V8_SUPPORT_
     "  --scale=<number> - scale output size by number (e.g. 0.5)\n"
 #ifdef _WIN32
     "  --bmp - write page images <pdf-name>.<page-number>.bmp\n"
@@ -578,6 +588,7 @@ int main(int argc, const char* argv[]) {
     return 1;
   }
 
+#ifdef _V8_SUPPORT_
   v8::V8::InitializeICU();
   v8::Platform* platform = v8::platform::CreateDefaultPlatform();
   v8::V8::InitializePlatform(platform);
@@ -598,6 +609,7 @@ int main(int argc, const char* argv[]) {
   v8::V8::SetNativesDataBlob(&natives);
   v8::V8::SetSnapshotDataBlob(&snapshot);
 #endif  // V8_USE_EXTERNAL_STARTUP_DATA
+#endif  // ~ _V8_SUPPORT_
 
   FPDF_InitLibrary();
 
@@ -620,7 +632,9 @@ int main(int argc, const char* argv[]) {
   }
 
   FPDF_DestroyLibrary();
+#ifdef _V8_SUPPORT_
   v8::V8::ShutdownPlatform();
+#endif  // ~ _V8_SUPPORT_
   delete platform;
 
   return 0;

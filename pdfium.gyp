@@ -1,6 +1,7 @@
 {
   'variables': {
     'pdf_use_skia%': 0,
+    'pdf_use_v8%': 0,
     'conditions': [
       ['OS=="linux"', {
         'bundle_freetype%': 0,
@@ -11,6 +12,7 @@
     ],
   },
   'target_defaults': {
+    'default_configuration': 'Release',
     'defines' : [
       'OPJ_STATIC',
       'V8_DEPRECATION_WARNINGS',
@@ -34,10 +36,24 @@
           }],
         ],
       }],
+      ['OS=="mac"', {
+        'xcode_settings': {
+          'ARCHS': 'x86_64 i386',
+          'ONLY_ACTIVE_ARCH': 'NO',
+          'GCC_SYMBOLS_PRIVATE_EXTERN': 'NO',  # no -fvisibility=hidden
+          'OTHER_CFLAGS':  [ '-stdlib=libstdc++', ],
+          'OTHER_LDFLAGS': [ '-stdlib=libstdc++', ],
+        }
+      }],
     ],
     'msvs_disabled_warnings': [
-      4005, 4018, 4146, 4333, 4345, 4267
+      4005, 4018, 4146, 4333, 4345, 4267, 4715, 4244
     ],
+    'msvs_settings': {
+      'VCCLCompilerTool': {
+        'WarnAsError': 'false',
+      },
+    },
   },
   'targets': [
     {
@@ -55,8 +71,6 @@
         'fxcrt',
         'fxedit',
         'fxge',
-        'javascript',
-        'jsapi',
         'pdfwindow',
       ],
       'ldflags': [ '-L<(PRODUCT_DIR)',],
@@ -105,6 +119,16 @@
         'public/fpdfview.h',
       ],
       'conditions': [
+        ['pdf_use_v8==1', {
+          'dependencies': [
+            'javascript',
+            'jsapi'
+          ],
+          'defines': ['_V8_SUPPORT_'],
+          'includes': [
+            'javascript.gypi'
+          ],
+        }],
         ['OS!="win"', {
           'sources!': [
             'fpdfsdk/src/fpdfsdkdll.rc',
@@ -597,83 +621,6 @@
       ],
     },
     {
-      'target_name': 'javascript',
-      'type': 'static_library',
-      'include_dirs': [
-        '<(DEPTH)/v8',
-        '<(DEPTH)/v8/include',
-      ],
-      'dependencies': [
-        '<(DEPTH)/v8/tools/gyp/v8.gyp:v8',
-      ],
-      'export_dependent_settings': [
-        '<(DEPTH)/v8/tools/gyp/v8.gyp:v8',
-      ],
-      'ldflags': [ '-L<(PRODUCT_DIR)',],
-      'sources': [
-        'fpdfsdk/include/javascript/app.h',
-        'fpdfsdk/include/javascript/color.h',
-        'fpdfsdk/include/javascript/console.h',
-        'fpdfsdk/include/javascript/Consts.h',
-        'fpdfsdk/include/javascript/Document.h',
-        'fpdfsdk/include/javascript/event.h',
-        'fpdfsdk/include/javascript/Field.h',
-        'fpdfsdk/include/javascript/global.h',
-        'fpdfsdk/include/javascript/Icon.h',
-        'fpdfsdk/include/javascript/IJavaScript.h',
-        'fpdfsdk/include/javascript/JavaScript.h',
-        'fpdfsdk/include/javascript/JS_Context.h',
-        'fpdfsdk/include/javascript/JS_Define.h',
-        'fpdfsdk/include/javascript/JS_EventHandler.h',
-        'fpdfsdk/include/javascript/JS_GlobalData.h',
-        'fpdfsdk/include/javascript/JS_Object.h',
-        'fpdfsdk/include/javascript/JS_Runtime.h',
-        'fpdfsdk/include/javascript/JS_Value.h',
-        'fpdfsdk/include/javascript/PublicMethods.h',
-        'fpdfsdk/include/javascript/report.h',
-        'fpdfsdk/include/javascript/resource.h',
-        'fpdfsdk/include/javascript/util.h',
-        'fpdfsdk/src/javascript/app.cpp',
-        'fpdfsdk/src/javascript/color.cpp',
-        'fpdfsdk/src/javascript/console.cpp',
-        'fpdfsdk/src/javascript/Consts.cpp',
-        'fpdfsdk/src/javascript/Document.cpp',
-        'fpdfsdk/src/javascript/event.cpp',
-        'fpdfsdk/src/javascript/Field.cpp',
-        'fpdfsdk/src/javascript/global.cpp',
-        'fpdfsdk/src/javascript/Icon.cpp',
-        'fpdfsdk/src/javascript/JS_Context.cpp',
-        'fpdfsdk/src/javascript/JS_EventHandler.cpp',
-        'fpdfsdk/src/javascript/JS_GlobalData.cpp',
-        'fpdfsdk/src/javascript/JS_Object.cpp',
-        'fpdfsdk/src/javascript/JS_Runtime.cpp',
-        'fpdfsdk/src/javascript/JS_Value.cpp',
-        'fpdfsdk/src/javascript/PublicMethods.cpp',
-        'fpdfsdk/src/javascript/report.cpp',
-        'fpdfsdk/src/javascript/resource.cpp',
-        'fpdfsdk/src/javascript/util.cpp',
-      ],
-    },
-    {
-      'target_name': 'jsapi',
-      'type': 'static_library',
-      'dependencies': [
-        '<(DEPTH)/v8/tools/gyp/v8.gyp:v8',
-      ],
-      'export_dependent_settings': [
-        '<(DEPTH)/v8/tools/gyp/v8.gyp:v8',
-      ],
-      'include_dirs': [
-        '<(DEPTH)/v8',
-        '<(DEPTH)/v8/include',
-      ],
-      'ldflags': [ '-L<(PRODUCT_DIR)',],
-      'sources': [
-        'fpdfsdk/include/jsapi/fxjs_v8.h',
-        'fpdfsdk/src/jsapi/fxjs_v8.cpp',
-      ],
-    },
-    {
       'target_name': 'formfiller',
       'type': 'static_library',
       'ldflags': [ '-L<(PRODUCT_DIR)',],
@@ -729,12 +676,24 @@
       'dependencies': [
         '<(DEPTH)/testing/gmock.gyp:gmock',
         '<(DEPTH)/testing/gtest.gyp:gtest',
-        '<(DEPTH)/v8/tools/gyp/v8.gyp:v8_libplatform',
         'pdfium',
       ],
       'include_dirs': [
         '<(DEPTH)',
-        '<(DEPTH)/v8',
+      ],
+      'conditions': [
+        ['pdf_use_v8==1', {
+          'defines': ['_V8_SUPPORT_'],
+          'includes': [
+            'javascript.gypi'
+          ],
+          'dependencies': [
+            '<(DEPTH)/v8/tools/gyp/v8.gyp:v8_libplatform',
+          ],
+          'include_dirs': [
+            '<(DEPTH)/v8',
+          ],
+        }],
       ],
       'sources': [
         'core/src/fpdfapi/fpdf_parser/fpdf_parser_decode_embeddertest.cpp',
