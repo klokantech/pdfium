@@ -7,7 +7,7 @@ Source is hosted at http://pdfium.googlesource.com
 
 This is version of PDFium with configurable variable for disabling V8 JavaScript engine (default disabled).
 
-Klokan Technologies is using this version within (GDAL library)[https://github.com/klokantech/gdal/tree/pdfium-master]
+Klokan Technologies is using this version within [GDAL library](https://github.com/klokantech/gdal/tree/pdfium-master)
 
 Update branch `google` from Google Code
 ====
