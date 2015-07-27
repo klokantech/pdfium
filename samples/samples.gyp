@@ -32,7 +32,7 @@
         ['pdf_use_v8==1', {
           'defines': ['_V8_SUPPORT_'],
           'includes': [
-            'javascript.gypi'
+            '../javascript.gypi'
           ],
           'dependencies': [
             '<(DEPTH)/v8/tools/gyp/v8.gyp:v8_libplatform',
