@@ -154,7 +154,7 @@
       '-fvisibility=hidden',
     ],
     'cflags_cc': [
-      '-std=gnu++0x',
+      '-std=c++0x',
       '-Wnon-virtual-dtor',
       '-fno-rtti',
     ],
@@ -219,7 +219,7 @@
     },
     'xcode_settings': {
       'ALWAYS_SEARCH_USER_PATHS': 'NO',
-      'CLANG_CXX_LANGUAGE_STANDARD': 'gnu++11',
+      'CLANG_CXX_LANGUAGE_STANDARD': 'c++0x',
       'GCC_CW_ASM_SYNTAX': 'NO',                # No -fasm-blocks
       'GCC_DYNAMIC_NO_PIC': 'NO',               # No -mdynamic-no-pic
                                                 # (Equivalent to -fPIC)

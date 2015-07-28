@@ -4,7 +4,7 @@
     'pdf_use_v8%': 0,
     'conditions': [
       ['OS=="linux"', {
-        'bundle_freetype%': 0,
+        'bundle_freetype%': 1,
       }, {  # On Android there's no system FreeType. On Windows and Mac, only a
             # few methods are used from it.
         'bundle_freetype%': 1,
