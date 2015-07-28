@@ -152,6 +152,7 @@
       '-pthread',
       '-fno-exceptions',
       '-fvisibility=hidden',
+      '-fPIC',
     ],
     'cflags_cc': [
       '-std=c++0x',
