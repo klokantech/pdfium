@@ -80,6 +80,61 @@
 #define jround_up FOXIT_PREFIX(jround_up)
 #define jzero_far FOXIT_PREFIX(jzero_far)
 
+#define jpeg_CreateCompress     FOXIT_PREFIX(jpeg_CreateCompress)
+/*#define jpeg_CreateDecompress   FOXIT_PREFIX(jpeg_CreateDecompress)*/
+#define jpeg_destroy_compress   FOXIT_PREFIX(jpeg_destroy_compress)
+/*#define jpeg_destroy_decompress FOXIT_PREFIX(jpeg_destroy_decompress)*/
+#define jpeg_stdio_dest         FOXIT_PREFIX(jpeg_stdio_dest)
+/*#define jpeg_stdio_src          FOXIT_PREFIX(jpeg_stdio_src)*/
+#define jpeg_set_defaults       FOXIT_PREFIX(jpeg_set_defaults)
+#define jpeg_set_colorspace     FOXIT_PREFIX(jpeg_set_colorspace)
+#define jpeg_default_colorspace FOXIT_PREFIX(jpeg_default_colorspace)
+#define jpeg_set_quality        FOXIT_PREFIX(jpeg_set_quality)
+#define jpeg_set_linear_quality FOXIT_PREFIX(jpeg_set_linear_quality)
+#define jpeg_add_quant_table    FOXIT_PREFIX(jpeg_add_quant_table)
+#define jpeg_quality_scaling    FOXIT_PREFIX(jpeg_quality_scaling)
+#define jpeg_simple_progression FOXIT_PREFIX(jpeg_simple_progression)
+#define jpeg_suppress_tables    FOXIT_PREFIX(jpeg_suppress_tables)
+/*#define jpeg_alloc_quant_table  FOXIT_PREFIX(jpeg_alloc_quant_table)*/
+/*#define jpeg_alloc_huff_table   FOXIT_PREFIX(jpeg_alloc_huff_table)*/
+#define jpeg_start_compress     FOXIT_PREFIX(jpeg_start_compress)
+#define jpeg_write_scanlines    FOXIT_PREFIX(jpeg_write_scanlines)
+#define jpeg_finish_compress    FOXIT_PREFIX(jpeg_finish_compress)
+#define jpeg_write_raw_data     FOXIT_PREFIX(jpeg_write_raw_data)
+#define jpeg_write_marker       FOXIT_PREFIX(jpeg_write_marker)
+#define jpeg_write_m_header     FOXIT_PREFIX(jpeg_write_m_header)
+#define jpeg_write_m_byte       FOXIT_PREFIX(jpeg_write_m_byte)
+#define jpeg_write_tables       FOXIT_PREFIX(jpeg_write_tables)
+/*#define jpeg_read_header        FOXIT_PREFIX(jpeg_read_header)*/
+/*#define jpeg_start_decompress   FOXIT_PREFIX(jpeg_start_decompress)*/
+/*#define jpeg_read_scanlines     FOXIT_PREFIX(jpeg_read_scanlines)*/
+/*#define jpeg_finish_decompress  FOXIT_PREFIX(jpeg_finish_decompress)*/
+/*#define jpeg_read_raw_data      FOXIT_PREFIX(jpeg_read_raw_data)*/
+/*#define jpeg_has_multiple_scans FOXIT_PREFIX(jpeg_has_multiple_scans)*/
+/*#define jpeg_start_output       FOXIT_PREFIX(jpeg_start_output)*/
+/*#define jpeg_finish_output      FOXIT_PREFIX(jpeg_finish_output)*/
+/*#define jpeg_input_complete     FOXIT_PREFIX(jpeg_input_complete)*/
+/*#define jpeg_new_colormap       FOXIT_PREFIX(jpeg_new_colormap)*/
+/*#define jpeg_consume_input      FOXIT_PREFIX(jpeg_consume_input)*/
+/*#define jpeg_calc_output_dimensions     FOXIT_PREFIX(jpeg_calc_output_dimensions)*/
+/*#define jpeg_save_markers       FOXIT_PREFIX(jpeg_save_markers)*/
+/*#define jpeg_set_marker_processor       FOXIT_PREFIX(jpeg_set_marker_processor)*/
+/*#define jpeg_read_coefficients  FOXIT_PREFIX(jpeg_read_coefficients)*/
+#define jpeg_write_coefficients FOXIT_PREFIX(jpeg_write_coefficients)
+#define jpeg_copy_critical_parameters   FOXIT_PREFIX(jpeg_copy_critical_parameters)
+#define jpeg_abort_compress     FOXIT_PREFIX(jpeg_abort_compress)
+/*#define jpeg_abort_decompress   FOXIT_PREFIX(jpeg_abort_decompress)*/
+/*#define jpeg_abort              FOXIT_PREFIX(jpeg_abort)*/
+/*#define jpeg_destroy            FOXIT_PREFIX(jpeg_destroy)*/
+/*#define jpeg_resync_to_restart  FOXIT_PREFIX(jpeg_resync_to_restart)*/
+
+#define jpeg_fdct_islow         FOXIT_PREFIX(jpeg_fdct_islow)
+#define jpeg_fdct_ifast         FOXIT_PREFIX(jpeg_fdct_ifast)
+#define jpeg_fdct_float         FOXIT_PREFIX(jpeg_fdct_float)
+
+#define jpeg_make_c_derived_tbl         FOXIT_PREFIX(jpeg_make_c_derived_tbl)
+#define jpeg_gen_optimal_table          FOXIT_PREFIX(jpeg_gen_optimal_table)
+
  /*
  * First we include the configuration files that record how this
  * installation of the JPEG library is set up.  jconfig.h can be

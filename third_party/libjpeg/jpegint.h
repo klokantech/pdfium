@@ -293,6 +293,40 @@ struct jpeg_color_quantizer {
 
 /* Short forms of external names for systems with brain-damaged linkers. */
 
+#define jinit_compress_master   FOXIT_PREFIX(jinit_compress_master)
+#define jinit_c_master_control  FOXIT_PREFIX(jinit_c_master_control)
+#define jinit_c_main_controller FOXIT_PREFIX(jinit_c_main_controller)
+#define jinit_c_prep_controller FOXIT_PREFIX(jinit_c_prep_controller)
+#define jinit_c_coef_controller FOXIT_PREFIX(jinit_c_coef_controller)
+#define jinit_color_converter   FOXIT_PREFIX(jinit_color_converter)
+#define jinit_downsampler       FOXIT_PREFIX(jinit_downsampler)
+#define jinit_forward_dct       FOXIT_PREFIX(jinit_forward_dct)
+#define jinit_huff_encoder      FOXIT_PREFIX(jinit_huff_encoder)
+#define jinit_phuff_encoder     FOXIT_PREFIX(jinit_phuff_encoder)
+#define jinit_marker_writer     FOXIT_PREFIX(jinit_marker_writer)
+#define jinit_master_decompress FOXIT_PREFIX(jinit_master_decompress)
+#define jinit_d_main_controller FOXIT_PREFIX(jinit_d_main_controller)
+#define jinit_d_coef_controller FOXIT_PREFIX(jinit_d_coef_controller)
+#define jinit_d_post_controller FOXIT_PREFIX(jinit_d_post_controller)
+#define jinit_input_controller  FOXIT_PREFIX(jinit_input_controller)
+#define jinit_marker_reader     FOXIT_PREFIX(jinit_marker_reader)
+#define jinit_huff_decoder      FOXIT_PREFIX(jinit_huff_decoder)
+#define jinit_phuff_decoder     FOXIT_PREFIX(jinit_phuff_decoder)
+#define jinit_inverse_dct       FOXIT_PREFIX(jinit_inverse_dct)
+#define jinit_upsampler         FOXIT_PREFIX(jinit_upsampler)
+#define jinit_color_deconverter FOXIT_PREFIX(jinit_color_deconverter)
+#define jinit_1pass_quantizer   FOXIT_PREFIX(jinit_1pass_quantizer)
+#define jinit_2pass_quantizer   FOXIT_PREFIX(jinit_2pass_quantizer)
+#define jinit_merged_upsampler  FOXIT_PREFIX(jinit_merged_upsampler)
+#define jinit_memory_mgr        FOXIT_PREFIX(jinit_memory_mgr)
+#define jdiv_round_up           FOXIT_PREFIX(jdiv_round_up)
+#define jround_up               FOXIT_PREFIX(jround_up)
+#define jcopy_sample_rows       FOXIT_PREFIX(jcopy_sample_rows)
+#define jcopy_block_row         FOXIT_PREFIX(jcopy_block_row)
+#define jzero_far               FOXIT_PREFIX(jzero_far)
+#define jpeg_zigzag_order       FOXIT_PREFIX(jpeg_zigzag_order)
+#define jpeg_natural_order      FOXIT_PREFIX(jpeg_natural_order)
+
 #ifdef NEED_SHORT_EXTERNAL_NAMES
 #define jinit_compress_master	jICompress
 #define jinit_c_master_control	jICMaster

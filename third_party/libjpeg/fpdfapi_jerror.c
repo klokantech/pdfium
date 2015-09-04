@@ -33,6 +33,8 @@
  * want to refer to it directly.
  */
 
+#define jpeg_std_message_table FOXIT_PREFIX(jpeg_std_message_table)
+
 #ifdef NEED_SHORT_EXTERNAL_NAMES
 #define jpeg_std_message_table	jMsgTable
 #endif
