@@ -22,6 +22,12 @@
 #define TRANSFORMS_SUPPORTED 1		/* 0 disables transform code */
 #endif
 
+#define jtransform_request_workspace FOXIT_PREFIX(jtransform_request_workspace)
+#define jtransform_adjust_parameters FOXIT_PREFIX(jtransform_adjust_parameters)
+#define jtransform_execute_transformation FOXIT_PREFIX(jtransform_execute_transformation)
+#define jcopy_markers_setup FOXIT_PREFIX(jcopy_markers_setup)
+#define jcopy_markers_execute FOXIT_PREFIX(jcopy_markers_execute)
+
 /* Short forms of external names for systems with brain-damaged linkers. */
 
 #ifdef NEED_SHORT_EXTERNAL_NAMES

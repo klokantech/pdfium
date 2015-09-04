@@ -91,6 +91,27 @@ typedef struct cdjpeg_progress_mgr * cd_progress_ptr;
 
 /* Short forms of external names for systems with brain-damaged linkers. */
 
+#define jinit_read_bmp          FOXIT_PREFIX(jinit_read_bmp)
+#define jinit_write_bmp         FOXIT_PREFIX(jinit_write_bmp)
+#define jinit_read_gif          FOXIT_PREFIX(jinit_read_gif)
+#define jinit_write_gif         FOXIT_PREFIX(jinit_write_gif)
+#define jinit_read_ppm          FOXIT_PREFIX(jinit_read_ppm)
+#define jinit_write_ppm         FOXIT_PREFIX(jinit_write_ppm)
+#define jinit_read_rle          FOXIT_PREFIX(jinit_read_rle)
+#define jinit_write_rle         FOXIT_PREFIX(jinit_write_rle)
+#define jinit_read_targa        FOXIT_PREFIX(jinit_read_targa)
+#define jinit_write_targa       FOXIT_PREFIX(jinit_write_targa)
+#define read_quant_tables       FOXIT_PREFIX(read_quant_tables)
+#define read_scan_script        FOXIT_PREFIX(read_scan_script)
+#define set_quant_slots         FOXIT_PREFIX(set_quant_slots)
+#define set_sample_factors      FOXIT_PREFIX(set_sample_factors)
+#define read_color_map          FOXIT_PREFIX(read_color_map)
+#define enable_signal_catcher   FOXIT_PREFIX(enable_signal_catcher)
+#define start_progress_monitor  FOXIT_PREFIX(start_progress_monitor)
+#define end_progress_monitor    FOXIT_PREFIX(end_progress_monitor)
+#define read_stdin              FOXIT_PREFIX(read_stdin)
+#define write_stdout            FOXIT_PREFIX(write_stdout
+
 #ifdef NEED_SHORT_EXTERNAL_NAMES
 #define jinit_read_bmp		jIRdBMP
 #define jinit_write_bmp		jIWrBMP
